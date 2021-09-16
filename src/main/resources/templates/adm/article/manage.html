@@ -1,0 +1,103 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin}">
+
+<head>
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <title>온라인 마크다운 PPT 서비스! 피피토 | 게시물 관리</title>
+  <title th:text="#{adm.title.article}">온라인 마크다운 PPT 서비스! 피피토 | 게시물 관리</title>
+</head>
+
+<div layout:fragment="content">
+
+  <!-- 임시 -->
+  <div class="flex flex-col py-4">
+    <div class="flex justify-center py-10 rounded-md bg-white shadow p-6">
+      <div>
+        <div class="flex flex-row mb-4">
+          <div class="flex-none px-4 py-1 bg-gray-600 text-gray-300 text-sm rounded-full">
+            <span>전체 게시물 수 : </span>
+            <span th:text="${count}+개"></span>
+          </div>
+          <div class="flex-grow"></div>
+          <div class="searchArticle">
+            <form action="/adm/manage/articles">
+              <select name="searchType" class="border-2 rounded px-2">
+                <option value="title">제목</option>
+              </select>
+              <input type="text" name="searchKeyword" class="border-2 rounded px-2">
+              <button type="submit" class="bg-gray-600 hover:bg-black text-white px-2 rounded">게시물 검색</button>
+            </form>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <table class="container mx-auto">
+            <thead class="bg-gray-100">
+            <tr class="w-full text-sm text-gray-500">
+              <th th:text="#{adm.article.count}" class="w-20 p-4"><input type="checkbox"></th>
+              <th th:text="#{number}" class="w-30 p-4">번호</th>
+              <th th:text="#{adm.article.writer}" class="w-36 p-4">작성자</th>
+              <th th:text="#{usr.article.title}" class="w-40 p-4">제목</th>
+              <th th:text="#{adm.article.regdate }" class="w-36 p-4">작성일</th>
+              <th th:text="#{adm.article.updatedate}" class="w-36 p-4">수정일</th>
+              <th th:text="#{button.modify}" class="w-20 p-4">수정</th>
+              <th th:text="#{button.delete}" class="w-20 p-4">삭제</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="article : ${articles}" class="text-sm text-gray-500">
+              <td class="p-4">
+                <input type="checkbox">
+              </td>
+              <td class="p-4">
+                <span th:text="${article.id}"></span>
+              </td>
+              <td th:with="member = ${article.member}" class="p-4 text-sm text-gray-500">
+                <span th:text="${member.name}"></span>
+              </td>
+              <td class="p-4">
+                <span th:text="${article.title}"></span>
+              </td>
+              <td class="p-4">
+                <span th:text="${article.regDate}"></span>
+              </td>
+              <td class="p-4">
+                <span th:text="${article.updateDate}"></span>
+              </td>
+              <td class="p-4">
+<!--                <button th:text="#{button.modify}" th:attr="onclick=|blindArticle('${article.id}')|"></button>-->
+                <th:blcok th:with="isBlinded=${article.blind}">
+                  <button th:if="${isBlinded}" id="releaseBtn" th:attr="onclick=|blindArticle('${article.id}')|"
+                          class="bg-gray-500 hover:bg-black text-white font-bold py-2 px-4 rounded duration-300">R</button>
+                  <button th:unless="${isBlinded}" id="blindBtn" th:attr="onclick=|blindArticle('${article.id}')|"
+                          class="bg-gray-500 hover:bg-black text-white font-bold py-2 px-4 rounded duration-300">B</button>
+                </th:blcok>
+              </td>
+              <td class="p-4">
+                <button th:text="#{button.delete}" th:attr="onclick=|delArticle('${article.id}')|" class="p-2 bg-red-500 rounded text-white block"></button>
+              </td>
+              <hr class="bg-gray-300">
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pageList flex justify-center">
+          <th:block th:each="i: ${#numbers.sequence(0, totalPage - 1)}">
+            <a th:text="${i + 1}" th:href="@{/adm/manage/articles?page={page}(page=${i})}"
+               class="px-1 hover:underline text-gray-500"></a>
+          </th:block>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- js 파일 불러오기 -->
+  <script src="/js/articleManage.js"></script>
+</div>
+
+</html>

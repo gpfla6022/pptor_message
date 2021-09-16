@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+</head>
+<aside th:fragment="adminSideBarFragment">
+
+  <!-- 사이드바 -->
+  <!-- position fixed 시 레이아웃 이슈 해결 안됨 -->
+  <div class="w-72 h-screen bg-gray-800">
+    <div class="flex flex-col">
+      <header class="p-4 mt-2">
+        <div class="x-3 py-2.5 h-auto bg-gray-800 rounded mb-2 cursor-pointer">
+          <div class="flex flex-row items-center px-4">
+            <div>
+              <img src="https://picsum.photos/60/60" alt="" class="rounded-full">
+            </div>
+            <div>
+              <span th:text="#{adm.sidebar}" class="ml-4 text-gray-300">ADMIN&nbsp;님</span>
+              <div class="ml-4">
+                <a th:href="@{~/usr/member/logout}" th:text="#{member.logout}" class="text-gray-500 text-sm hover:text-gray-300 hover:duration-100">로그아웃</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <hr class="border-gray-700 mb-10 w-56 mx-auto">
+
+      <!-- 메뉴 -->
+      <nav class="px-6 text-gray-400 hover:text-gray-400">
+        <ul class="rounded mb-2 hover:bg-gray-900 hover:text-gray-200 duration-300 cursor-pointer shadow-inner">
+          <li>
+            <a th:href="@{~/adm}" class="flex items-center inline-block w-full px-3 py-3.5">
+              <span class="flex-none">
+                    <i class="fas fa-user-friends"></i>
+                    <span th:text="#{adm.sidebar.admhome}" class="ml-2">관리자 홈</span>
+              </span>
+              <span class="flex-grow"></span>
+              <i class="fas fa-arrow-right flex-none"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="rounded mb-2 hover:bg-gray-900 hover:text-gray-200 duration-300 cursor-pointer shadow-inner">
+          <li>
+            <a th:href="@{~/adm/manage/members}" class="flex items-center inline-block w-full px-3 py-3.5">
+              <span class="flex-none">
+                    <i class="fas fa-user-friends"></i>
+                    <span th:text="#{adm.authlevel.member}" class="ml-2">회원</span>
+              </span>
+              <span class="flex-grow"></span>
+              <i class="fas fa-arrow-right flex-none"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="rounded mb-2 hover:bg-gray-900 hover:text-gray-200 duration-300 cursor-pointer shadow-inner">
+          <li>
+            <a th:href="@{~/adm/manage/articles}" class="flex items-center inline-block w-full px-3 py-3.5">
+              <span class="flex-none">
+                    <i class="fas fa-marker"></i>
+                    <span th:text="#{adm.sidebar.article}" class="ml-2">게시물</span>
+              </span>
+              <span class="flex-grow"></span>
+              <i class="fas fa-arrow-right flex-none"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="rounded mb-2 hover:bg-gray-900 hover:text-gray-200 duration-300 cursor-pointer shadow-inner">
+          <li>
+            <a th:href="@{~/adm/manage/boards}" class="flex items-center inline-block w-full px-3 py-3.5">
+              <span class="flex-none">
+                    <i class="fas fa-marker"></i>
+                    <span th:text="#{adm.sidebar.board}" class="ml-2">게시판</span>
+              </span>
+              <span class="flex-grow"></span>
+              <i class="fas fa-arrow-right flex-none"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="rounded mb-2 hover:bg-gray-900 hover:text-gray-200 duration-300 cursor-pointer shadow-inner">
+          <li>
+            <a href="#" class="flex items-center inline-block w-full px-3 py-3.5">
+              <span class="flex-none">
+                    <i class="fas fa-marker"></i>
+                    <span th:text="#{adm.sidebar.temp}" class="ml-2">임시</span>
+              </span>
+              <span class="flex-grow"></span>
+              <i class="fas fa-arrow-right flex-none"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="rounded mb-2 hover:bg-gray-900 hover:text-gray-200 duration-300 cursor-pointer shadow-inner">
+          <li>
+            <a href="#" class="flex items-center inline-block w-full px-3 py-3.5">
+              <span class="flex-none">
+                    <i class="fas fa-marker"></i>
+                    <span th:text="#{adm.sidebar.stats}" class="ml-2">통계</span>
+              </span>
+              <span class="flex-grow"></span>
+              <i class="fas fa-arrow-right flex-none"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="rounded mb-2 hover:bg-gray-900 hover:text-gray-200 duration-300 cursor-pointer shadow-inner">
+          <li>
+            <a href="#" class="flex items-center inline-block w-full px-3 py-3.5">
+              <span class="flex-none">
+                    <i class="fas fa-cog"></i>
+                    <span th:text="#{adm.sidebar.account}" class="ml-2">관리자 계정 설정</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <hr class="border-gray-700 my-8 w-56 mx-auto">
+
+      <div class="px-5 py-2.5 text-gray-300 hover:bg-gray-700 hover:text-gray-200 duration-300 cursor-pointer">
+        <a href="/"  class="flex items-center inline-block w-full px-3 py-3.5">
+            <span th:text="#{adm.sidebar.main}" class="ml-2">피피토 메인으로 이동</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</aside>
+</html>

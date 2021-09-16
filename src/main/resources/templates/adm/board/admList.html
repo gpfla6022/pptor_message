@@ -1,0 +1,115 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin}">
+
+<head>
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/admin.css" type="text/css">
+    <title th:text="#{adm.title.board}">온라인 마크다운 PPT 서비스! 피피토 | 게시판 리스트</title>
+    <style>
+    #boardAdd {
+      display:none;
+      position:relative;
+      width:100%;
+      height:100%;
+      z-index:1;
+    }
+
+
+    #boardAdd button {
+      display:inline-block;
+      width:100px;
+      margin-left:calc(100% - 100px - 10px);
+    }
+
+    #boardAdd .boardAdd_content {
+      width:300px;
+      margin:100px auto;
+      padding:20px 10px;
+      background:#fff;
+      border:2px solid #666;
+    }
+
+    #boardAdd .boardAdd_layer {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0, 0, 0, 0.5);
+      z-index:-1;
+    }
+</style>
+</head>
+
+
+<div layout:fragment="content">
+
+    <!-- 임시 -->
+    <div class="flex flex-col py-4">
+        <div class="flex justify-center py-10 rounded-md bg-white shadow p-6">
+            <div>
+                <div class="flex flex-row mb-4">
+                    <div class="flex-none px-4 py-1 bg-gray-600 text-gray-300 text-sm rounded-full">
+                        <span th:text="#{boards.count}">전체 게시판 수 : </span>
+                        <span th:text="${count}+개">1</span>
+                    </div>
+
+                    <div class="flex-grow"></div>
+                        <button type="button" id="boardAdd_open_btn" class="flex-none px-4 py-1 ml-10 border border-gray-500text-gray-600 text-sm rounded-md">게시판 생성</button>
+                </div>
+
+                <div id="boardAdd">
+                    <div class="boardAdd_content">
+                        <div th:replace="fragments/adm/boardAdd::boardAddFragment"></div>
+                    </div>
+                    <div class="boardAdd_layer"></div>
+                </div>
+                <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+                <script>
+                        document.getElementById("boardAdd_open_btn").onclick = function() {
+                        document.getElementById("boardAdd").style.display="block";
+                        }
+
+                        document.getElementById("boardAdd_close_btn").onclick = function() {
+                        document.getElementById("boardAdd").style.display="none";
+                        }
+
+                </script>
+
+                <div class="flex flex-col">
+                    <div class="text-center">
+                        <div class="p-3 bg-gray-100 text-sm">
+                            <div class="flex grid grid-cols-5 gap-3">
+                                <div><input type="checkbox"></div>
+                                <span th:text="#{board.name}">게시판 이름</span>
+                                <span th:text="#{board.regdate}">게시판 생성일</span>
+                                <span th:text="#{button.modify}">수정</span>
+                                <span th:text="#{button.delete}">삭제</span>
+                            </div>
+                        </div>
+                        <div th:each="board : ${boards}" class="p-3 flex flex-col items-center text-sm">
+                            <div class="flex items-center py-2 grid grid-cols-5 gap-4">
+                                <div><input type="checkbox"></div>
+                                <div th:text="${board.name}"></div>
+                                <div th:text="${board.regDate}"></div>
+                                <div>
+                                    <button th:text="#{button.modify}" onclick="modifyContent(this)" class="board-modify-btn relative w-20 p-2 bg-blue-500 rounded text-white block">수정</button>
+                                    <div class="hidden absolute">
+                                        <div th:replace="fragments/adm/boardModify::boardModifyFragment"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button th:text="#{button.delete}" th:attr="onclick=|delContent('${board.name}')|" class="w-20 p-2 bg-red-500 rounded text-white block">삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
